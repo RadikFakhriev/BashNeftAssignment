@@ -13,17 +13,36 @@ namespace LetterCounter
             using var consoleInput = new StreamReader(Console.OpenStandardInput());
 
             var threadInfo = new ThreadInfo();
-            Console.WriteLine("Входная директория: ");
-            threadInfo.InputPath = consoleInput.ReadLine();
-            Console.WriteLine("Директория для результатов: ");
-            threadInfo.OutputPath = consoleInput.ReadLine();
+            int inputAttempts = 0;
+
+            do
+            {
+                if (inputAttempts > 0)
+                    Console.WriteLine("Некорректный ввод, попробуйте ещё раз -> ");
+                else
+                    Console.WriteLine("Входная директория: ");
+                threadInfo.InputPath = consoleInput.ReadLine();
+                inputAttempts++;
+            } while (!Directory.Exists(threadInfo.InputPath));
+
+            inputAttempts = 0;
+
+            do
+            {
+                if (inputAttempts > 0)
+                    Console.WriteLine("Некорректный ввод, попробуйте ещё раз -> ");
+                else
+                    Console.WriteLine("Директория для результатов: ");
+                threadInfo.OutputPath = consoleInput.ReadLine();
+                inputAttempts++;
+            } while (!Directory.Exists(threadInfo.OutputPath));
+           
             cts = new CancellationTokenSource();
             Console.CancelKeyPress += CloseHandler;
-            
+
             try
             {
                 DirectoryInfo sourceDirectory = new DirectoryInfo(threadInfo.InputPath);
-                DirectoryInfo destinationDirectory = new DirectoryInfo(threadInfo.InputPath);
                 var fileCount = sourceDirectory.GetFiles()
                     .Count(fl => SearchFilesRegex.IsMatch(fl.Name));
                 doneCountDownEvent = new CountdownEvent(fileCount);
@@ -41,11 +60,7 @@ namespace LetterCounter
                 }
             } catch (Exception ex)
             {
-                if (ex is DirectoryNotFoundException)
-                    Console.WriteLine("Указана некорректная директория!");
-                else
-                    Console.WriteLine("Произошла ошибка при создании задач на обработку!");
-
+                Console.WriteLine("Произошла ошибка при создании задач на обработку!");
                 Console.WriteLine(ex.Message);
                 Environment.Exit(0);
             }
