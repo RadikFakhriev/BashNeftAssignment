@@ -19,22 +19,35 @@ namespace LetterCounter
             threadInfo.OutputPath = consoleInput.ReadLine();
             cts = new CancellationTokenSource();
             Console.CancelKeyPress += CloseHandler;
-
-            DirectoryInfo sourceDirectory = new DirectoryInfo(threadInfo.InputPath);
-            var fileCount = sourceDirectory.GetFiles()
-                .Count(fl => SearchFilesRegex.IsMatch(fl.Name));
-            doneCountDownEvent = new CountdownEvent(fileCount);
-
-            foreach (FileInfo file in sourceDirectory.GetFiles())
+            
+            try
             {
-                if (SearchFilesRegex.IsMatch(file.Name))
-                {
-                    threadInfo.FilePath = file.FullName;
-                    threadInfo.FileName = file.Name;
-                    threadInfo.CancelToken = cts.Token;
+                DirectoryInfo sourceDirectory = new DirectoryInfo(threadInfo.InputPath);
+                DirectoryInfo destinationDirectory = new DirectoryInfo(threadInfo.InputPath);
+                var fileCount = sourceDirectory.GetFiles()
+                    .Count(fl => SearchFilesRegex.IsMatch(fl.Name));
+                doneCountDownEvent = new CountdownEvent(fileCount);
 
-                    ThreadPool.QueueUserWorkItem(CalculateResultJob, threadInfo.ShallowCopy());
+                foreach (FileInfo file in sourceDirectory.GetFiles())
+                {
+                    if (SearchFilesRegex.IsMatch(file.Name))
+                    {
+                        threadInfo.FilePath = file.FullName;
+                        threadInfo.FileName = file.Name;
+                        threadInfo.CancelToken = cts.Token;
+
+                        ThreadPool.QueueUserWorkItem(CalculateResultJob, threadInfo.ShallowCopy());
+                    }
                 }
+            } catch (Exception ex)
+            {
+                if (ex is DirectoryNotFoundException)
+                    Console.WriteLine("Указана некорректная директория!");
+                else
+                    Console.WriteLine("Произошла ошибка при создании задач на обработку!");
+
+                Console.WriteLine(ex.Message);
+                Environment.Exit(0);
             }
 
             while (true)
