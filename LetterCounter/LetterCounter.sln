@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.9.34728.123
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LetterCounter", "LetterCounter.csproj", "{AC700F90-DE73-415C-B14A-40D8679CC024}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FilesGenerator", "..\FilesGenerator\FilesGenerator.csproj", "{F53EAF32-D55D-46E6-9AFB-94D888DDBDFE}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{AC700F90-DE73-415C-B14A-40D8679CC024}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AC700F90-DE73-415C-B14A-40D8679CC024}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AC700F90-DE73-415C-B14A-40D8679CC024}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AC700F90-DE73-415C-B14A-40D8679CC024}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F53EAF32-D55D-46E6-9AFB-94D888DDBDFE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F53EAF32-D55D-46E6-9AFB-94D888DDBDFE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F53EAF32-D55D-46E6-9AFB-94D888DDBDFE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F53EAF32-D55D-46E6-9AFB-94D888DDBDFE}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {B556CF8E-95C7-460F-9ECD-01A20AD37F07}
+	EndGlobalSection
+EndGlobal
