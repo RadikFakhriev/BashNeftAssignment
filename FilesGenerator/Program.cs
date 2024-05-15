@@ -10,14 +10,48 @@
             using var consoleInput = new StreamReader(Console.OpenStandardInput());
 
             var threadInfo = new ThreadInfo();
-            Console.WriteLine("Введите путь до директории, в которой будут созданы файлы:");
-            threadInfo.OutPath = consoleInput.ReadLine();
+            int inputAttempts = 0;
+            int fileCount = 0;
+
+            do
+            {
+                if (inputAttempts > 0)
+                    Console.WriteLine("Некорректный ввод, попробуйте ещё раз -> ");
+                else
+                    Console.WriteLine("Введите путь до директории, в которой будут созданы файлы:");
+                threadInfo.OutPath = consoleInput.ReadLine();
+                inputAttempts++;
+            } while (!Directory.Exists(threadInfo.OutPath));
+
+            inputAttempts = 0;
+
             Console.WriteLine("Введите кол-во файлов, которые нужно создать:");
-            var fileCount = int.Parse(consoleInput.ReadLine());
+
+            while (!int.TryParse(consoleInput.ReadLine(), out fileCount))
+            {
+                Console.WriteLine("Некорректный ввод, попробуйте ещё раз -> ");
+            }
+
             Console.WriteLine("Введите максимальную длину строки:");
-            threadInfo.MaxLineLength = int.Parse(consoleInput.ReadLine());
+            int maxLineLen = 0;
+
+            while (!int.TryParse(consoleInput.ReadLine(), out maxLineLen))
+            {
+                Console.WriteLine("Некорректный ввод, попробуйте ещё раз -> ");
+            }
+
+            threadInfo.MaxLineLength = maxLineLen;
+
             Console.WriteLine("Введите максимальное кол-во строк:");
-            threadInfo.MaxLineCount = int.Parse(consoleInput.ReadLine());
+            int maxLineCount = 0;
+
+            while (!int.TryParse(consoleInput.ReadLine(), out maxLineCount))
+            {
+                Console.WriteLine("Некорректный ввод, попробуйте ещё раз -> ");
+            }
+
+            threadInfo.MaxLineCount = maxLineCount;
+
             doneCountDownEvent = new CountdownEvent(fileCount);
             cts = new CancellationTokenSource();
             Console.CancelKeyPress += CloseHandler;
